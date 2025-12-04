@@ -6,16 +6,14 @@ const tbody = table.querySelector('tbody');
 const allRows = document.querySelectorAll('tbody tr');
 
 headers.forEach((th, i) => {
-  th.setAttribute('data-order', 'desc');
+  th.removeAttribute('data-order');
 
   th.addEventListener('click', () => {
     sortByColumn(i, th);
   });
 });
 
-function sortByColumn(columnIndex, headersElem) {
-  const currentOrder = headersElem.getAttribute('data-order');
-  const newOrder = currentOrder === 'desc' ? 'asc' : 'desc';
+function sortByColumn(columnIndex) {
 
   const sortedRows = Array.from(allRows).sort((rowA, rowB) => {
     const cellA = rowA.children[columnIndex];
@@ -42,17 +40,10 @@ function sortByColumn(columnIndex, headersElem) {
       comparison = 1;
     }
 
-    if (newOrder === 'asc') {
-      return (comparison *= -1);
-    }
-    
     return comparison;
-
   });
 
   headers.forEach((h) => h.removeAttribute('data-order'));
-
-  headersElem.setAttribute('data-order', newOrder);
 
   sortedRows.forEach((row) => {
     tbody.appendChild(row);
